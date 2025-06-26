@@ -227,35 +227,9 @@ We have a weekly SIG meeting! See the [community page](https://github.com/open-t
 
 ### Community members
 
-#### Maintainers
-
-- [Amir Blum](https://github.com/blumamir), Odigos
-- [Chengzhong Wu](https://github.com/legendecas), Bloomberg
-- [Daniel Dyla](https://github.com/dyladan), Dynatrace
-- [Jamie Danielson](https://github.com/JamieDanielson), Honeycomb
-- [Marc Pichler](https://github.com/pichlermarc), Dynatrace
-- [Trent Mick](https://github.com/trentm), Elastic
-
-For more information about the maintainer role, see the [community repository](https://github.com/open-telemetry/community/blob/main/community-membership.md#maintainer).
-
-#### Approvers
-
-- [David Luna](https://github.com/david-luna), Elastic
-- [Hector Hernandez](https://github.com/hectorhdzg), Microsoft
-- [Martin Kuba](https://github.com/martinkuba), Lightstep
-- [Marylia Gutierrez](https://github.com/maryliag), Grafana Labs
-- [Matthew Wear](https://github.com/mwear), LightStep
-- [Neville Wylie](https://github.com/MSNev), Microsoft
-- [Purvi Kanal](https://github.com/pkanal), Honeycomb
-- [Svetlana Brennan](https://github.com/svetlanabrennan), New Relic
-
-For more information about the approver role, see the [community repository](https://github.com/open-telemetry/community/blob/main/community-membership.md#approver).
-
 #### Triagers
 
 Members of this team have triager permissions for opentelemetry-js.git and opentelemetry-js-contrib.git.
-
-- [Jackson Weber](https://github.com/JacksonWeber), Microsoft
 
 For more information about the triager role, see the [community repository](https://github.com/open-telemetry/community/blob/main/community-membership.md#triagers).
 
@@ -264,28 +238,7 @@ For more information about the triager role, see the [community repository](http
 Members of this team have triager permissions for opentelemetry-js-contrib.git.
 Typically, members of this are [component owners](https://github.com/open-telemetry/opentelemetry-js-contrib/blob/main/.github/component_owners.yml) of one or more packages in the contrib repo.
 
-- [Aaron Abbott](https://github.com/aabmass), Google
-- [Abhinav Mathur](https://github.com/abhee11), AppDynamics
-- [Bartlomiej Obecny](https://github.com/obecny)
-- [Daniel Li](https://github.com/d4nyll)
-- [Florencia Acosta](https://github.com/facostaembrace), Embrace
-- [Jackson Weber](https://github.com/JacksonWeber), Microsoft
-- [Jaryk](https://github.com/Ugzuzg), Volvo Cars
-- [Jonathan Lee](https://github.com/jj22ee)
-- [Jonathan Munz](https://github.com/jpmunz), Embrace
-- [kirrg001](https://github.com/kirrg001), Instana
-- [MartenH](https://github.com/mhennoch), Splunk
-- [Mike Goldsmith](https://github.com/MikeGoldsmith), Honeycomb
-- [Motti](https://github.com/mottibec)
-- [Punya Biswal](https://github.com/punya), Google
-- [Siim Kallas](https://github.com/seemk), Splunk
-- [Trivikram Kamat](https://github.com/trivikr), AWS
-- [t2t2](https://github.com/t2t2), Splunk
-
 For more information about the triager role, see the [community repository](https://github.com/open-telemetry/community/blob/main/community-membership.md#triagers).
-
-#### Emeriti
-
 - [Bartlomiej Obecny](https://github.com/obecny), LightStep, Maintainer
 - [Daniel Khan](https://github.com/dkhan), Dynatrace, Maintainer
 - [Mayur Kale](https://github.com/mayurkale22), Google, Maintainer
