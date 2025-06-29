@@ -3,7 +3,8 @@ on:
   release:
     types: [published]
           
-permissions: read-all
+permissions:
+  contents: read
 
 jobs:
   generate-sboms:
