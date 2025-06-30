@@ -3,8 +3,13 @@ on:
     branches:
       - main
 
+permissions:
+  contents: read
+
 jobs:
   label-release:
+    permissions:
+      pull-requests: write
     if: ${{ startsWith(github.event.pull_request.title, 'release:') }}
     runs-on: ubuntu-latest
     steps:
