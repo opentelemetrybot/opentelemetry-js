@@ -3,6 +3,9 @@ on:
     branches:
       - main
 
+permissions:
+  contents: read
+
 jobs:
   label-release:
     if: ${{ startsWith(github.event.pull_request.title, 'release:') }}
