@@ -11,9 +11,9 @@ permissions:
 
 jobs:
   CodeQL-Build:
-    runs-on: ubuntu-latest
     permissions:
       security-events: write
+    runs-on: ubuntu-latest
 
     steps:
       - name: Checkout repository
