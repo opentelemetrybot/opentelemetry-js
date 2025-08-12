@@ -19,30 +19,21 @@ on:
           - semconv # only semantic convention package
 
 permissions:
-  contents: read
+  contents: write
 
 jobs:
   create-or-update-release-pr:
     runs-on: ubuntu-latest
     steps:
-      - name: Fork
-        run: gh repo fork open-telemetry/opentelemetry-js
-        env:
-          GITHUB_TOKEN: ${{ secrets.OPENTELEMETRYBOT_GITHUB_TOKEN }}
+      - uses: actions/create-github-app-token@df432ceedc7162793a195dd1713ff69aefc7379e # v2.0.6
+        id: otelbot-token
+        with:
+          app-id: ${{ vars.OTELBOT_APP_ID }}
+          private-key: ${{ secrets.OTELBOT_PRIVATE_KEY }}
       - name: Checkout
         uses: actions/checkout@v4
         with:
-          repository: opentelemetrybot/opentelemetry-js
-          ref: main
-          token: ${{ secrets.OPENTELEMETRYBOT_GITHUB_TOKEN }}
-      - name: Sync with upstream
-        run: |
-          git remote show origin
-          git remote add upstream https://github.com/open-telemetry/opentelemetry-js.git
-          git fetch upstream
-          git reset --hard upstream/main
-          git push origin main --force
-
+          token: ${{ secrets.GITHUB_TOKEN }}
       - uses: actions/setup-node@v4
         with:
           cache: 'npm'
@@ -52,14 +43,52 @@ jobs:
 
       - run: npm ci
 
-      - name: Create/Update Release PR
+      - name: Update Release Branch
         run: |
-          git config user.name opentelemetrybot
-          git config user.email 107717825+opentelemetrybot@users.noreply.github.com
-          npm run github:create_or_update_release_pr
+          git config user.name otelbot
+          git config user.email 197425009+otelbot@users.noreply.github.com
+          # Set up remotes for the script
+          git remote add upstream https://github.com/open-telemetry/opentelemetry-js.git
+          # Manual implementation of _github:update_release_branch with otelbot branch prefix
+          npm run _verify_release_kind
+          npm run _verify_release_remote
+          git checkout main
+          git pull upstream main
+          git branch -D otelbot/release/next-version || true
+          git checkout -b otelbot/release/next-version
+          npm run prepare_release:$RELEASE_KIND
+          git commit -am "chore: prepare release"
+          git push --set-upstream $RELEASE_PR_REMOTE --force otelbot/release/next-version
         env:
-          GITHUB_TOKEN: ${{ secrets.OPENTELEMETRYBOT_GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           RELEASE_SCOPE: ${{ github.event.inputs.release_scope }}
           RELEASE_KIND: ${{ github.event.inputs.release_scope }}:${{ github.event.inputs.release_type }}
           RELEASE_PR_REMOTE: origin
-          RELEASE_PR_OWNER: opentelemetrybot
+          RELEASE_PR_OWNER: otelbot
+      
+      - name: Create/Update Release PR
+        run: |
+          # Create PR using otelbot token to trigger workflows
+          gh pr create --repo open-telemetry/opentelemetry-js --head otelbot/release/next-version --base main --title 'chore: prepare next release' --body '' || true
+          # Extract release notes based on scope
+          case "$RELEASE_SCOPE" in
+            "all")
+              node scripts/extract-latest-release-notes.js api/CHANGELOG.md ./CHANGELOG.md experimental/CHANGELOG.md
+              ;;
+            "sdk")
+              node scripts/extract-latest-release-notes.js ./CHANGELOG.md experimental/CHANGELOG.md
+              ;;
+            "experimental")
+              node scripts/extract-latest-release-notes.js experimental/CHANGELOG.md
+              ;;
+            "semconv")
+              node scripts/extract-latest-release-notes.js semantic-conventions/CHANGELOG.md
+              ;;
+          esac
+          # Update PR body with release notes
+          gh pr edit --repo open-telemetry/opentelemetry-js otelbot/release/next-version --body-file ./.tmp/release-notes.md || echo "Could not update PR body, continuing..."
+        env:
+          GITHUB_TOKEN: ${{ steps.otelbot-token.outputs.token }}
+          GH_TOKEN: ${{ steps.otelbot-token.outputs.token }}
+          RELEASE_SCOPE: ${{ github.event.inputs.release_scope }}
+          RELEASE_PR_OWNER: otelbot
