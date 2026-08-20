@@ -37,7 +37,7 @@ on:
           - minor
 
 permissions:
-  contents: read
+  contents: write # required for pushing changes
 
 jobs:
   create-or-update-release-pr:
